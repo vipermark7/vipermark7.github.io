@@ -443,7 +443,7 @@ function init() {
   WORD = getRandomWord().toLowerCase();
   hiddenWord = hideWord(WORD);
 
-  document.getElementById("word").textContent = hiddenWord.join("");
+  wordDiv.textContent = hiddenWord.join("");
   document.getElementById("lettersUsed").textContent = "";
   document.getElementById("guesses").textContent = `Guesses: 0`
 }
@@ -453,6 +453,13 @@ var wins = 0;
 var guesses = 0;
 var usedLetters = [];
 var WORD = getRandomWord().toLowerCase();
+
+var wordDiv = document.getElementById("word")
+var lettersUsedDiv = document.getElementById("lettersUsed")
+var guessesDiv = document.getElementById("guesses")
+var winsDiv = document.getElementById("wins")
+var lossesDiv = document.getElementById("losses")
+
 var hiddenWord = [];
 const maxGuesses = 12;
 var key;
@@ -462,7 +469,7 @@ for (letter in WORD) {
   hiddenWord.push("_ ");
 }
 
-document.getElementById("word").textContent = hiddenWord.join(" ");
+wordDiv.textContent = hiddenWord.join(" ");
 
 document.addEventListener("keypress", (event) => {
   key = event.key.toLowerCase();
@@ -479,7 +486,7 @@ document.addEventListener("keypress", (event) => {
         hiddenWord[i] = key;
       }
     }
-    document.getElementById("word").textContent = hiddenWord.join("");
+    wordDiv.textContent = hiddenWord.join("");
   }
 
   // don't count a letter that the user already guessed incorrectly towards guesses
@@ -491,18 +498,16 @@ document.addEventListener("keypress", (event) => {
   if (wrongGuess()) {
     usedLetters.push(key);
     guesses += 1;
-    document.getElementById("lettersUsed").textContent = usedLetters;
-    document.getElementById("guesses").textContent = `Guesses ${guesses}`;
+    lettersUsedDiv.textContent = usedLetters;
+    guessesDiv.textContent = `Guesses ${guesses}`;
   }
 
   if (userWon()) {
     console.log("You win! :D");
     wins += 1;
-    document.getElementById("wins").textContent = `Wins: ${wins}`;
-
-    document.getElementById(
-      "word"
-    ).textContent = `You won! The word was ${WORD}! On to the next one! :)`;
+    
+    winsDiv.textContent = `Wins: ${wins}`;
+    wordDiv.textContent = `You won! The word was ${WORD}! On to the next one! :)`;
 
     setTimeout(() => init(), 4000);
   }
@@ -510,11 +515,9 @@ document.addEventListener("keypress", (event) => {
   if (userLost()) {
     console.log(`You lost! :(`);
     losses += 1;
-    document.getElementById("losses").textContent = `Losses: ${losses}`;
+    lossesDiv.textContent = `Losses: ${losses}`;
 
-    document.getElementById(
-      "word"
-    ).textContent = `You lost. The word was ${WORD}! See if you can guess the next one! :)`;
+    wordDiv.textContent = `You lost. The word was ${WORD}! See if you can guess the next one! :)`;
     setTimeout(() => init(), 4000);
   }
 });
